@@ -1,12 +1,14 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { Alert, Button, Label, Spinner, TextInput } from 'flowbite-react'
-
+import { signInStart, signInSuccess, signInFaliure } from '../redux/user/userSlice'
+import {useDispatch, useSelector} from "react-redux"
+import OAuth from '../components/OAuth'
 
 function Signin() {
   const [formData, setFormData] = useState({})
-  const [loading, setLoading] = useState(false)
-  const [errorMessage, setErrorMessage] = useState(null)
+  const {loading, error: errorMessage} = useSelector(state => state.user)
+  const dispatch = useDispatch()
   const navigate = useNavigate()
 
   const handleChange = (e) =>{
@@ -16,13 +18,12 @@ function Signin() {
   const handleSubmit = async (e) =>{
     e.preventDefault()
     if (!formData.email || !formData.password) {
-      return setErrorMessage("All field required")
+      return dispatch(signInFaliure("All field required"))
     }
 
     try {
-      setLoading(true)
-      setErrorMessage(null)
-      const res = await fetch("/api/v1/registers/signin",{
+      dispatch(signInStart())
+      const res = await fetch("/api/v1/register/signin",{
         method: "POST",
         headers: {"Content-Type":"Application/Json"},
         body: JSON.stringify(formData)
@@ -30,15 +31,14 @@ function Signin() {
 
       const data = await res.json()
       if (data.success === false) {
-        return setErrorMessage(data.message)
+        dispatch(signInFaliure(data.message))
       }
-      setLoading(false)
       if (res.ok) {
+        dispatch(signInSuccess(data))
         navigate("/")
       }
     } catch (error) {
-      setErrorMessage(error.message)
-      setLoading(false)
+      dispatch(signInFaliure(error.message))
     }
 
   }
@@ -84,6 +84,7 @@ function Signin() {
                 ) : "Sign In"
               }
             </Button>
+            <OAuth/>
           </form>
           <div className='flex gap-2 text-sm mt-5'>
           <span> Don't have an Account? </span>

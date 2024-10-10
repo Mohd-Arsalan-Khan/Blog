@@ -3,6 +3,7 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/apiError.js";
 import { ApiResponse } from "../utils/apiResponse.js";
 import jwt from "jsonwebtoken"
+import bcryptjs from "bcryptjs";
 
 
 const signUp = asyncHandler(async(req, res) =>{
@@ -66,8 +67,38 @@ const signIn = asyncHandler(async(req, res) =>{
     
 })
 
+const google = asyncHandler(async(req,res) =>{
+    const {email, name, googlePhotoUrl} = req.body
+
+    try {
+        const user = await User.findOne({email})
+        if (user) {
+            // throw new ApiError(400, "user already exsisted please sign in")
+            const token = jwt.sign({id: user._id}, process.env.JWT_SECRET)
+            const {password, ...rest} = user._doc;
+            res.status(200).cookie("access_token", token,{httpOnly:true}).json(rest)
+        }else{
+            const generatePassword = Math.random().toString(36).slice(-8) + Math.random().toString(36).slice(-8);
+            const hashPassword =  bcryptjs.hashSync(generatePassword, 10);
+            const newUser = await User.create({
+                username : name.toLowerCase().split(" ").join("") + Math.random().toString(9).slice(-4),
+                email,
+                password: hashPassword,
+                profilePicture: googlePhotoUrl
+            })
+            const token = jwt.sign({id: newUser._id}, process.env.JWT_SECRET)
+            const {password, ...rest} = newUser._doc;
+            res.status(200).cookie("access_token", token,{httpOnly:true}).json(rest)
+        }
+        
+    } catch (error) {
+        return res.status(500).json({ message: "Internal server error" });
+    }
+
+})
 
 export{
     signUp,
-    signIn
+    signIn,
+    google,
 }
