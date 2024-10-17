@@ -1,11 +1,12 @@
 import { Router } from "express"
-import { test } from "../controllers/user.controller.js"
-import { google } from "../controllers/auth.controller.js"
+import { test, updateUser } from "../controllers/user.controller.js"
+import verifyToken from "../middlewares/verify.js"
 
 const router = Router()
 
 router.route("/").get(test)
-// router.route("/google").post(google)
+router.route("/update/:userId").put(verifyToken, updateUser)
+
 
 
 export default router

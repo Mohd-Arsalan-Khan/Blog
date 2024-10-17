@@ -61,7 +61,7 @@ const signIn = asyncHandler(async(req, res) =>{
 
     const {password: pass, ...rest} = findUser._doc;
 
-    res.status(200).cookie("access-token", token, {
+    res.status(200).cookie("access_token", token, {
         httpOnly: true
     }).json(new ApiResponse(200, rest, "User Logged In"))
     
