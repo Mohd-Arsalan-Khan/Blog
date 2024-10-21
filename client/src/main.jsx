@@ -1,4 +1,4 @@
-import { StrictMode } from 'react'
+
 import { createRoot } from 'react-dom/client'
 import App from './App.jsx'
 import './index.css'
@@ -9,11 +9,13 @@ import ThemeProvider from './components/themeProvider.jsx'
 
 
 createRoot(document.getElementById('root')).render(
-  <PersistGate persistor={persistor}>
-  <Provider store={store}>
+
+    <Provider store={store}>
+  <PersistGate loading={null} persistor={persistor}>
    <ThemeProvider>
     <App/>
    </ThemeProvider>
-  </Provider>,
   </PersistGate>
+  </Provider>,
+
 )

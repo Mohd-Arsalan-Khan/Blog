@@ -56,14 +56,14 @@ const signIn = asyncHandler(async(req, res) =>{
     }
 
     const token = jwt.sign({
-        _id: findUser._id,
+        id: findUser._id,
     }, process.env.JWT_SECRET)
 
     const {password: pass, ...rest} = findUser._doc;
 
     res.status(200).cookie("access_token", token, {
         httpOnly: true
-    }).json(new ApiResponse(200, rest, "User Logged In"))
+    }).json(rest)
     
 })
 
