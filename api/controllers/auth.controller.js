@@ -63,7 +63,7 @@ const signIn = asyncHandler(async(req, res) =>{
 
     res.status(200).cookie("access_token", token, {
         httpOnly: true
-    }).json(rest)
+    }).json(new ApiResponse(200, rest, "user login sucessfully"))
     
 })
 
