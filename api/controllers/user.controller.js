@@ -55,7 +55,7 @@ if (req.user.id !== req.params.userId) {
   }
 })
 
-const deleteUser = asyncHandler(async(req,res) =>{
+const deleteUser = asyncHandler(async(req,res,next) =>{
   if (req.user.id !== req.params.userId) {
     return new ApiError(403, 'You are not allowed to update this user')
 
@@ -68,7 +68,16 @@ const deleteUser = asyncHandler(async(req,res) =>{
   }
 })
 
+const signout = asyncHandler(async(req,res,next) =>{
+  try {
+    res.clearCookie('acces_token').status(200).json(new ApiResponse(200, {}, "user has log out successfully"))
+  } catch (error) {
+    next(error)
+  }
+})
+
 export{
     updateUser,
-    deleteUser
+    deleteUser,
+    signout
 }
