@@ -57,7 +57,7 @@ const getPosts = asyncHandler(async(req, res, next) =>{
             createdAt:{$gte: oneMonthAgo}
         })
 
-        res.status(200).json( new ApiResponse(200, {posts, totalPosts, lastMonthPosts},"all data fetched"))
+        res.status(200).json({posts, totalPosts, lastMonthPosts})
     } catch (error) {
         next(error)
     }
