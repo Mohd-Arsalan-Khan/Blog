@@ -63,8 +63,21 @@ const getPosts = asyncHandler(async(req, res, next) =>{
     }
 })
 
+const deletePost = asyncHandler(async(req, res, next) =>{
+    if (!req.user.isAdmin || req.user.id !== req.params.userId) {
+        return new ApiError(403, "you are not allowed to delete this post")
+    }
+
+    try {
+        await Post.findByIdAndDelete(req.params.postId)
+        res.status(200).json("The Post is deleted successfully")
+    } catch (error) {
+        next(error)
+    }
+})
 
 export{
     create,
-    getPosts
+    getPosts,
+    deletePost
 }
