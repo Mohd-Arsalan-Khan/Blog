@@ -56,7 +56,7 @@ if (req.user.id !== req.params.userId) {
 })
 
 const deleteUser = asyncHandler(async(req,res,next) =>{
-  if (req.user.id !== req.params.userId) {
+  if (!req.user.isAdmin && req.user.id !== req.params.userId) {
     return new ApiError(403, 'You are not allowed to update this user')
 
   }
