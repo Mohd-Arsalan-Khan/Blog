@@ -14,11 +14,13 @@ app.use(cookieParser())
 import userRouter from "./routes/user.route.js"
 import authRouter from "./routes/auth.route.js"
 import postRouter from "./routes/post.route.js"
+import commentRouter from "./routes/comment.route.js"
 
 
 app.use("/api/v1/user", userRouter)
 app.use("/api/v1/register", authRouter)
 app.use("/api/v1/post", postRouter)
+app.use("/api/v1/comment", commentRouter)
 
 
 app.use((err, req, res, next) =>{
