@@ -13,7 +13,6 @@ const verifyToken = (req, res, next) =>{
             throw new ApiError(401, "unauthorized")
         }
         req.user = user;
-        console.log(user)
         next()
     })
 }

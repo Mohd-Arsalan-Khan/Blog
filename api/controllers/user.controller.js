@@ -111,9 +111,24 @@ const getUsers = asyncHandler(async(req,res,next) =>{
   }
 })
 
+const getUser = asyncHandler(async(req,res,next) =>{
+  try {
+    const user = await User.findById(req.params.userId)
+    if (!user) {
+      return new ApiError(403,"user not found")
+    }
+    const {password, ...rest} = user._doc
+    res.status(200).json(rest)
+    
+  } catch (error) {
+    
+  }
+})
+
 export{
     updateUser,
     deleteUser,
     signout,
-    getUsers
+    getUsers,
+    getUser
 }
