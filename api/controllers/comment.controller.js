@@ -41,8 +41,35 @@ const getPostComment = asyncHandler(async(req,res,next) =>{
     }
 })
 
+const likeComment = asyncHandler(async(req, res, next) =>{
+    try {
+        const comment = await Comment.findById(req.params.commentId)
+
+        if (!comment) {
+            return new ApiError(403,"No comment found")
+        }
+
+        const userIdex = comment.likes.indexOf(req.user.id)
+        if (userIdex === -1) {
+            comment.numbersOfLikes += 1;
+            comment.likes.push(req.user.id)
+        } else {
+            comment.numbersOfLikes -= 1;
+            comment.likes.splice(userIdex, 1)
+        }
+
+        await comment.save()
+
+        res.status(200).json(comment)
+
+    } catch (error) {
+        next(error)
+    }
+})
+
 
 export{
     createComment,
-    getPostComment
+    getPostComment,
+    likeComment
 }

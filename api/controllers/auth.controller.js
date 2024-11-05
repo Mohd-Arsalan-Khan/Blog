@@ -31,7 +31,7 @@ const signUp = asyncHandler(async(req, res) =>{
         throw new ApiError(400, "user is not registered")
     }
 
-    return res.status(200).json(new ApiResponse(200, newUser, "user is created"))
+    res.status(200).json("SignUp sucessfully")
 })
 
 const signIn = asyncHandler(async(req, res) =>{
@@ -63,7 +63,7 @@ const signIn = asyncHandler(async(req, res) =>{
 
     res.status(200).cookie("access_token", token, {
         httpOnly: true
-    }).json(new ApiResponse(200, rest, "user login sucessfully"))
+    }).json(rest)
     
 })
 
@@ -73,7 +73,7 @@ const google = asyncHandler(async(req,res) =>{
     try {
         const user = await User.findOne({email})
         if (user) {
-            // throw new ApiError(400, "user already exsisted please sign in")
+            // return new ApiError(400, "user already exsisted please sign in")
             const token = jwt.sign({id: user._id, isAdmin: user.isAdmin}, process.env.JWT_SECRET)
             const {password, ...rest} = user._doc;
             res.status(200).cookie("access_token", token,{httpOnly:true}).json(rest)
@@ -92,7 +92,7 @@ const google = asyncHandler(async(req,res) =>{
         }
         
     } catch (error) {
-        return res.status(500).json({ message: "Internal server error" });
+        throw res.status(500).json({ message: "Internal server error" });
     }
 
 })
