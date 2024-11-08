@@ -89,10 +89,27 @@ const editComment = asyncHandler(async(req,res,next) =>{
     }
 })
 
+const deleteComment = asyncHandler(async(req,res,next) =>{
+    try {
+        const comment = await Comment.findById(req.params.commentId)
+        if (!comment) {
+            return new ApiError(403, "comment not found")
+        }
+        if (comment.userId !== req.user.id && !req.user.isAdmin) {
+            return new ApiError(403, "You are not allowed to delete the comment")
+        }
+        await Comment.findByIdAndDelete(req.params.commentId)
+        res.status(200).json("Comment has been deleted")
+    } catch (error) {
+        next(error)
+    }
+})
+
 
 export{
     createComment,
     getPostComment,
     likeComment,
-    editComment
+    editComment,
+    deleteComment
 }
