@@ -92,7 +92,7 @@ const getUsers = asyncHandler(async(req,res,next) =>{
       return rest
     })
 
-    const totalUser = await User.countDocuments()
+    const totalUsers = await User.countDocuments()
     const now = new Date()
     const oneMonthAgo = new Date(
       now.getFullYear(),
@@ -105,7 +105,7 @@ const getUsers = asyncHandler(async(req,res,next) =>{
     })
 
 
-    res.status(200).json({users : usersWithoutPassword, totalUser, lastMonthUsers})
+    res.status(200).json({users : usersWithoutPassword, totalUsers, lastMonthUsers})
   } catch (error) {
     next(error)
   }
@@ -121,7 +121,7 @@ const getUser = asyncHandler(async(req,res,next) =>{
     res.status(200).json(rest)
     
   } catch (error) {
-    
+    next(error)
   }
 })
 
