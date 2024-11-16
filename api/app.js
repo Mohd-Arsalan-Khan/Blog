@@ -1,7 +1,9 @@
 import express from "express"
 import cors from "cors"
 import cookieParser from "cookie-parser";
+import path from 'path'
 
+const __dirname = path.resolve()
 
 const app = express();
 
@@ -22,6 +24,11 @@ app.use("/api/v1/register", authRouter)
 app.use("/api/v1/post", postRouter)
 app.use("/api/v1/comment", commentRouter)
 
+app.use(express.static(path.join(__dirname, '/client/dist')))
+
+app.get('*', (req,res) =>{
+    res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'))
+})
 
 app.use((err, req, res, next) =>{
     const statusCode = err.statusCode || 500;
