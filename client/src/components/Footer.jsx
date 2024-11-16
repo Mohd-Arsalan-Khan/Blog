@@ -19,11 +19,11 @@ function footerComp() {
                     <Footer.Title title="About"/>
                     <Footer.LinkGroup col>
                         <Footer.Link
-                        href='https://www.100jsprojects.com'
+                        href='https://www.javascript.com/'
                         target='_blank'
                         rel='noopener noreferrer'
                         >
-                            100 JS Project
+                            Learn More
                         </Footer.Link>
                         <Footer.Link
                         href='/About'

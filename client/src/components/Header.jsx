@@ -111,9 +111,9 @@ function Header() {
                 About
                 </Link>
             </Navbar.Link>
-            <Navbar.Link active={path === "/Project"} as={"div"}>
-                <Link to="/Project">
-                Project
+            <Navbar.Link active={path === "/Learn"} as={"div"}>
+                <Link to="/Learn">
+                Learn More
                 </Link>
             </Navbar.Link>
         </Navbar.Collapse>
