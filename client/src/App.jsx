@@ -9,7 +9,7 @@ import SignUp from "./pages/SignUp"
 import Footer from "./components/Footer"
 import PrivateRoute from "./components/PrivateRoute"
 import OnlyAdminPrivateRoute from "./components/OnlyAdminPrivateRoute"
-import Createpost from "./pages/Createpost"
+import CreatePost from "./pages/CreatePost"
 import UpdatePost from "./pages/UpdatePost"
 import PostPage from "./pages/PostPage"
 import ScrollToTop from "./components/ScrollToTop"
@@ -28,7 +28,7 @@ function App() {
       <Route path= "/Dashboard" element= {<Dashboard/>} />
       </Route>
       <Route element={<OnlyAdminPrivateRoute/>}>
-      <Route path= "/create-post" element= {<Createpost/>} />
+      <Route path= "/create-post" element= {<CreatePost/>} />
       <Route path= "/update-post/:postId" element= {<UpdatePost/>} />
       </Route>
       <Route path= "/Learn" element= {<Learn />} />
