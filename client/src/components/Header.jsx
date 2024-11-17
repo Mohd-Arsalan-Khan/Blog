@@ -47,7 +47,7 @@ function Header() {
         const serachQuery = urlParams.toString()
         navigate(`/search?${serachQuery}`) 
     }
-    
+
   return (
     <Navbar className='border-b-2'>
         <Link to = "/" className='self-center whitespace-nowrap text-sm sm:text-xl font-semibold dark:text-white'>
@@ -64,11 +64,11 @@ function Header() {
                 onChange={(e) => setSearchTerm(e.target.value)}
             />
         </form>
-        <Button className='w-12 h-10 lg:hidden' color="gray" pill>
+        <Button className='w-12 h-10 lg:hidden' color="gray" pill onClick={() => navigate('/search')}>
             <AiOutlineSearch/>
         </Button>
         <div className='flex gap-2 md:order-2'>
-            <Button className='w-12 h-10 hidden sm:inline' color="gray" pill onClick={()=>dispatch(toggleTheme())}>
+            <Button className='w-12 h-10 inline' color="gray" pill onClick={()=>dispatch(toggleTheme())}>
                 {theme === 'light' ? <FaSun/> : <FaMoon/>}
             </Button>
             {currentUser ? (
@@ -101,17 +101,16 @@ function Header() {
             <Navbar.Toggle/>
         </div>
         <Navbar.Collapse>
-            <Navbar.Link active={path === "/"} as={"div"}>
-                <Link to="/">
-                Home
-                </Link>
+            <Navbar.Link active={path === "/"} as="div" onClick={() => navigate('/')}>
+                <Link to="/">Home</Link>
             </Navbar.Link>
-            <Navbar.Link active={path === "/About"} as={"div"}>
+            
+            <Navbar.Link active={path === "/About"} as="div" onClick={() => navigate('/About')}>
                 <Link to="/About">
                 About
                 </Link>
             </Navbar.Link>
-            <Navbar.Link active={path === "/Learn"} as={"div"}>
+            <Navbar.Link active={path === "/Learn"} as="div" onClick={() => navigate('/Learn')}>
                 <Link to="/Learn">
                 Learn More
                 </Link>
